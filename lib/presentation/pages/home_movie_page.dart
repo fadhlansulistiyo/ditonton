@@ -1,10 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/domain/entity/movie.dart';
+import 'package:ditonton/presentation/pages/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/search_page.dart';
+import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
+import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/movie_list.dart';
+import 'about_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
@@ -17,65 +21,21 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<MovieListNotifier>(context, listen: false)
+    Future.microtask(() {
+      if (mounted) {
+        context.read<MovieListNotifier>()
           ..fetchNowPlayingMovies()
           ..fetchPopularMovies()
-          ..fetchTopRatedMovies());
+          ..fetchTopRatedMovies();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/circle-g.png'),
-                backgroundColor: Colors.grey.shade900,
-              ),
-              accountName: Text('Ditonton'),
-              accountEmail: Text('ditonton@dicoding.com'),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade900,
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.movie),
-              title: Text('Movies'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.save_alt),
-              title: Text('Watchlist'),
-              onTap: () {
-                // Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
-              },
-            ),
-            ListTile(
-              onTap: () {
-                // Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
-              },
-              leading: Icon(Icons.info_outline),
-              title: Text('About'),
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Text('Ditonton'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
-            },
-            icon: Icon(Icons.search),
-          )
-        ],
-      ),
+      drawer: _buildDrawer(context),
+      appBar: _buildAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -86,57 +46,125 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 'Now Playing',
                 style: kHeading6,
               ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.nowPlayingState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.nowPlayingMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              // Now Playing Movies
+              _buildNowPlayingMovies(),
               _buildSubHeading(
                 title: 'Popular',
                 onTap: () {
-                  // Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME)
+                  Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME);
                 },
               ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.popularMoviesState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.popularMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              _buildPopularMovies(),
               _buildSubHeading(
                 title: 'Top Rated',
                 onTap: () {
-                  // Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME)
+                  Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME);
                 },
               ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedMoviesState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.topRatedMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
+              _buildTopRatedMovies(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Consumer<MovieListNotifier> _buildTopRatedMovies() {
+    return Consumer<MovieListNotifier>(builder: (context, data, child) {
+      final state = data.topRatedMoviesState;
+      if (state == RequestState.Loading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state == RequestState.Loaded) {
+        return MovieList(data.topRatedMovies);
+      } else {
+        return const Text('Failed');
+      }
+    });
+  }
+
+  Consumer<MovieListNotifier> _buildPopularMovies() {
+    return Consumer<MovieListNotifier>(builder: (context, data, child) {
+      final state = data.popularMoviesState;
+      if (state == RequestState.Loading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state == RequestState.Loaded) {
+        return MovieList(data.popularMovies);
+      } else {
+        return const Text('Failed');
+      }
+    });
+  }
+
+  Consumer<MovieListNotifier> _buildNowPlayingMovies() {
+    return Consumer<MovieListNotifier>(builder: (context, data, child) {
+      final state = data.nowPlayingState;
+      if (state == RequestState.Loading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state == RequestState.Loaded) {
+        return MovieList(data.nowPlayingMovies);
+      } else {
+        return const Text('Failed');
+      }
+    });
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: const Text('Ditonton'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+          },
+          icon: const Icon(Icons.search),
+        )
+      ],
+    );
+  }
+
+  Drawer _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: const AssetImage('assets/circle-g.png'),
+              backgroundColor: Colors.grey.shade900,
+            ),
+            accountName: const Text('Ditonton'),
+            accountEmail: const Text('ditonton@dicoding.com'),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade900,
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.movie),
+            title: const Text('Movies'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.save_alt),
+            title: const Text('Watchlist'),
+            onTap: () {
+              Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+            },
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+            },
+            leading: const Icon(Icons.info_outline),
+            title: const Text('About'),
+          ),
+        ],
       ),
     );
   }
@@ -151,52 +179,14 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         ),
         InkWell(
           onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Row(
               children: [Text('See More'), Icon(Icons.arrow_forward_ios)],
             ),
           ),
         ),
       ],
-    );
-  }
-}
-
-class MovieList extends StatelessWidget {
-  final List<Movie> movies;
-
-  MovieList(this.movies);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final movie = movies[index];
-          return Container(
-            padding: const EdgeInsets.all(8),
-            child: InkWell(
-              onTap: () {
-                // Navigator.pushNamed(context, MovieDetailPage.ROUTE_NAME, arguments: movie.id,);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: movies.length,
-      ),
     );
   }
 }
