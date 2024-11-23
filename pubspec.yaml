@@ -1,0 +1,37 @@
+name: ditonton
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^1.2.2
+  provider: ^6.1.2
+  cupertino_icons: ^1.0.8
+  path_provider: ^2.1.5
+  sqflite: ^2.4.1
+  get_it: ^8.0.2
+  cached_network_image: ^3.4.1
+  flutter_rating_bar: ^4.0.1
+  google_fonts: ^6.2.1
+  equatable: ^2.0.7
+  dartz: ^0.10.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+
+  uses-material-design: true
