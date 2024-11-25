@@ -58,12 +58,12 @@ class MyApp extends StatelessWidget {
           textTheme: kTextTheme,
           drawerTheme: kDrawerTheme,
         ),
-        home: const HomeMoviePage(),
+        home: HomeMoviePage(),
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/home':
-              return MaterialPageRoute(builder: (_) => const HomeMoviePage());
+              return MaterialPageRoute(builder: (_) => HomeMoviePage());
             case SearchPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => const SearchPage());
             case PopularMoviesPage.ROUTE_NAME:

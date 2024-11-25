@@ -11,10 +11,9 @@ import '../widgets/movie_list.dart';
 import 'about_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
-  const HomeMoviePage({super.key});
 
   @override
-  State<HomeMoviePage> createState() => _HomeMoviePageState();
+  _HomeMoviePageState createState() => _HomeMoviePageState();
 }
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
