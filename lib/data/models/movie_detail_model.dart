@@ -1,7 +1,7 @@
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entity/movie_detail.dart';
+import '../../domain/entity/movie/movie_detail.dart';
 
 class MovieDetailResponse extends Equatable {
   MovieDetailResponse({

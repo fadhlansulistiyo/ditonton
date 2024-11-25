@@ -5,9 +5,9 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import '../../domain/entity/genre.dart';
-import '../../domain/entity/movie.dart';
-import '../../domain/entity/movie_detail.dart';
+import '../../domain/entity/movie/genre.dart';
+import '../../domain/entity/movie/movie.dart';
+import '../../domain/entity/movie/movie_detail.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail';

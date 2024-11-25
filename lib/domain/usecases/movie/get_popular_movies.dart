@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/repositories/movie_repository.dart';
+import '../../entity/movie/movie.dart';
 
-import '../entity/movie.dart';
-
-class SearchMovies {
+class GetPopularMovies {
   final MovieRepository repository;
 
-  SearchMovies(this.repository);
+  GetPopularMovies(this.repository);
 
-  Future<Either<Failure, List<Movie>>> execute(String query) {
-    return repository.searchMovies(query);
+  Future<Either<Failure, List<Movie>>> execute() {
+    return repository.getPopularMovies();
   }
 }
