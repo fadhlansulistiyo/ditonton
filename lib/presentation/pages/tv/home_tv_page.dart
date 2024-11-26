@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../provider/tv/tv_list_notifier.dart';
 import '../../widgets/tv_list.dart';
 import '../about/about_page.dart';
+import '../movie/watchlist_movies_page.dart';
 
 class HomeTvPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-page';
@@ -160,12 +161,12 @@ class _HomeTvPageState extends State<HomeTvPage> {
             leading: const Icon(Icons.bookmarks_rounded),
             title: const Text('Watchlist Movie'),
             onTap: () {
-              Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
+              Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmarks_rounded),
-            title: const Text('Watchlist Tv'),
+            title: const Text('Watchlist Tv Series'),
             onTap: () {
               Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
             },

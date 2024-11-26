@@ -167,7 +167,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
           ),
           ListTile(
             leading: const Icon(Icons.bookmarks_rounded),
-            title: const Text('Watchlist Tv'),
+            title: const Text('Watchlist Tv Series'),
             onTap: () {
               Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
             },
