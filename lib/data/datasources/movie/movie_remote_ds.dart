@@ -1,5 +1,5 @@
-import 'package:ditonton/data/models/movie_model.dart';
-import '../../models/movie_detail_model.dart';
+import 'package:ditonton/data/models/movie/movie_model.dart';
+import '../../models/movie/movie_detail_model.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getNowPlayingMovies();

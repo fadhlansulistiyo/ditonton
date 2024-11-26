@@ -1,4 +1,5 @@
-import 'package:ditonton/data/models/movie_table.dart';
+import 'package:ditonton/data/models/movie/movie_table.dart';
+import 'package:ditonton/data/models/tv/tv_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -37,12 +38,15 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<int> insertWatchlist(MovieTable movieTable) async {
+  /*
+  * Movies
+  * */
+  Future<int> insertWatchlistMovie(MovieTable movieTable) async {
     final db = await database;
     return await db!.insert(_tableWatchlist, movieTable.toJson());
   }
 
-  Future<int> removeWatchlist(MovieTable movieTable) async {
+  Future<int> removeWatchlistMovie(MovieTable movieTable) async {
     final db = await database;
     return await db!
         .delete(_tableWatchlist, where: 'id = ?', whereArgs: [movieTable.id]);
@@ -64,6 +68,42 @@ class DatabaseHelper {
   }
 
   Future<List<Map<String, dynamic>>> getWatchlistMovies() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.query(_tableWatchlist);
+
+    return results;
+  }
+
+  /*
+  * Tv Series
+  * */
+  Future<int> insertWatchlistTv(TvTable tvTable) async {
+    final db = await database;
+    return await db!.insert(_tableWatchlist, tvTable.toJson());
+  }
+
+  Future<int> removeWatchlistTv(TvTable tvTable) async {
+    final db = await database;
+    return await db!
+        .delete(_tableWatchlist, where: 'id = ?', whereArgs: [tvTable.id]);
+  }
+
+  Future<Map<String, dynamic>?> getTvById(int id) async {
+    final db = await database;
+    final results = await db!.query(
+      _tableWatchlist,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (results.isNotEmpty) {
+      return results.first;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getWatchlistTv() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(_tableWatchlist);
 

@@ -1,28 +1,25 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/data/datasources/movie/movie_local_ds.dart';
-import 'package:ditonton/data/datasources/movie/movie_remote_ds.dart';
-import 'package:ditonton/domain/entity/movie/movie.dart';
-import 'package:ditonton/domain/entity/movie/movie_detail.dart';
-import 'package:ditonton/domain/repositories/movie_repository.dart';
+import 'package:ditonton/data/datasources/tv/tv_local_ds.dart';
+import 'package:ditonton/data/datasources/tv/tv_remote_ds.dart';
+import '../../domain/entity/tv/tv.dart';
+import '../../domain/entity/tv/tv_detail.dart';
+import '../../domain/repositories/tv_repository.dart';
+import '../models/tv/tv_table.dart';
 
-import '../models/movie/movie_table.dart';
+class TvRepositoryImpl implements TvRepository {
+  final TvLocalDataSource localDataSource;
+  final TvRemoteDataSource remoteDataSource;
 
-class MovieRepositoryImpl implements MovieRepository {
-  final MovieLocalDataSource movieLocalDataSource;
-  final MovieRemoteDataSource movieRemoteDataSource;
-
-  MovieRepositoryImpl(
-      {required this.movieLocalDataSource,
-      required this.movieRemoteDataSource});
+  TvRepositoryImpl(
+      {required this.localDataSource, required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<Movie>>> getNowPlayingMovies() async {
+  Future<Either<Failure, List<Tv>>> getAiringTodayTv() async {
     try {
-      final result = await movieRemoteDataSource.getNowPlayingMovies();
+      final result = await remoteDataSource.getAiringTodayTv();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -32,9 +29,9 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, MovieDetail>> getMovieDetail(int id) async {
+  Future<Either<Failure, TvDetail>> getTvDetail(int id) async {
     try {
-      final result = await movieRemoteDataSource.getMovieDetail(id);
+      final result = await remoteDataSource.getTvDetail(id);
       return Right(result.toEntity());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -44,9 +41,9 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getMovieRecommendations(int id) async {
+  Future<Either<Failure, List<Tv>>> getTvRecommendations(int id) async {
     try {
-      final result = await movieRemoteDataSource.getMovieRecommendations(id);
+      final result = await remoteDataSource.getTvRecommendations(id);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -56,9 +53,9 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getPopularMovies() async {
+  Future<Either<Failure, List<Tv>>> getPopularTv() async {
     try {
-      final result = await movieRemoteDataSource.getPopularMovies();
+      final result = await remoteDataSource.getPopularTv();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -68,9 +65,9 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getTopRatedMovies() async {
+  Future<Either<Failure, List<Tv>>> getTopRatedTv() async {
     try {
-      final result = await movieRemoteDataSource.getTopRatedMovies();
+      final result = await remoteDataSource.getTopRatedTv();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -80,9 +77,9 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> searchMovies(String query) async {
+  Future<Either<Failure, List<Tv>>> searchTv(String query) async {
     try {
-      final result = await movieRemoteDataSource.searchMovies(query);
+      final result = await remoteDataSource.searchTv(query);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -92,10 +89,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, String>> saveWatchlist(MovieDetail movie) async {
+  Future<Either<Failure, String>> saveWatchlist(TvDetail tv) async {
     try {
-      final result = await movieLocalDataSource
-          .insertWatchlist(MovieTable.fromEntity(movie));
+      final result =
+          await localDataSource.insertWatchlistTv(TvTable.fromEntity(tv));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -105,10 +102,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) async {
+  Future<Either<Failure, String>> removeWatchlist(TvDetail tv) async {
     try {
       final result =
-          await movieLocalDataSource.removeWatchlist(MovieTable.fromEntity(movie));
+          await localDataSource.removeWatchlistTv(TvTable.fromEntity(tv));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -117,13 +114,13 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<bool> isAddedToWatchlist(int id) async {
-    final result = await movieLocalDataSource.getMovieById(id);
+    final result = await localDataSource.getTvById(id);
     return result != null;
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getWatchlistMovies() async {
-    final result = await movieLocalDataSource.getWatchlistMovies();
+  Future<Either<Failure, List<Tv>>> getWatchlistTv() async {
+    final result = await localDataSource.getWatchlistTv();
     return Right(result.map((data) => data.toEntity()).toList());
   }
 }

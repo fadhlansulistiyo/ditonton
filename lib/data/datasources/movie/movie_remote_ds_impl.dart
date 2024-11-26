@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/data/datasources/movie/movie_remote_ds.dart';
-import 'package:ditonton/data/models/movie_detail_model.dart';
-import 'package:ditonton/data/models/movie_model.dart';
+import 'package:ditonton/data/models/movie/movie_detail_model.dart';
+import 'package:ditonton/data/models/movie/movie_model.dart';
 import 'package:http/http.dart' as http;
-import '../../models/movie_response.dart';
+import '../../models/movie/movie_response.dart';
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   static const API_KEY = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
