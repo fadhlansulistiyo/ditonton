@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../common/state_enum.dart';
-import '../../domain/entity/movie/movie.dart';
-import '../../domain/usecases/movie/get_now_playing_movies.dart';
-import '../../domain/usecases/movie/get_popular_movies.dart';
-import '../../domain/usecases/movie/get_top_rated_movies.dart';
+import '../../../common/state_enum.dart';
+import '../../../domain/entity/movie/movie.dart';
+import '../../../domain/usecases/movie/get_now_playing_movies.dart';
+import '../../../domain/usecases/movie/get_popular_movies.dart';
+import '../../../domain/usecases/movie/get_top_rated_movies.dart';
 
 class MovieListNotifier extends ChangeNotifier {
 
