@@ -2,23 +2,23 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entity/tv/tv.dart';
-import 'package:ditonton/domain/usecases/tv/get_popular_tv.dart';
-import 'package:ditonton/presentation/provider/tv/popular_tv_notifier.dart';
+import 'package:ditonton/domain/usecases/tv/get_airing_today_tv.dart';
+import 'package:ditonton/presentation/provider/tv/airing_today_tv_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'tv_list_notifier_test.mocks.dart';
 
-@GenerateMocks([GetPopularTv])
+@GenerateMocks([GetAiringTodayTv])
 void main() {
-  late PopularTvNotifier notifier;
-  late MockGetPopularTv mockGetPopularTv;
+  late AiringTodayTvNotifier notifier;
+  late MockGetAiringTodayTv mockGetAiringTodayTv;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
-    mockGetPopularTv = MockGetPopularTv();
-    notifier = PopularTvNotifier(getPopularTv: mockGetPopularTv)
+    mockGetAiringTodayTv = MockGetAiringTodayTv();
+    notifier = AiringTodayTvNotifier(getAiringTodayTv: mockGetAiringTodayTv)
       ..addListener(() {
         listenerCallCount++;
       });
@@ -44,11 +44,11 @@ void main() {
   test('should change state to loading when useCase is called', () async {
     /*
     * arrange */
-    when(mockGetPopularTv.execute())
+    when(mockGetAiringTodayTv.execute())
         .thenAnswer((_) async => Right(tTvList));
     /*
     * act */
-    notifier.fetchPopularTv();
+    notifier.fetchAiringTodayTv();
     /*
     * assert */
     expect(notifier.state, RequestState.Loading);
@@ -58,11 +58,11 @@ void main() {
   test('should change tv data when data is gotten successfully', () async {
     /*
     * arrange */
-    when(mockGetPopularTv.execute())
+    when(mockGetAiringTodayTv.execute())
         .thenAnswer((_) async => Right(tTvList));
     /*
     * act */
-    await notifier.fetchPopularTv();
+    await notifier.fetchAiringTodayTv();
     /*
     * assert */
     expect(notifier.state, RequestState.Loaded);
@@ -73,11 +73,11 @@ void main() {
   test('should return error when data is unsuccessful', () async {
     /*
     * arrange */
-    when(mockGetPopularTv.execute())
+    when(mockGetAiringTodayTv.execute())
         .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
     /*
     * act */
-    await notifier.fetchPopularTv();
+    await notifier.fetchAiringTodayTv();
     /*
     * assert */
     expect(notifier.state, RequestState.Error);
