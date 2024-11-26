@@ -1,0 +1,22 @@
+{
+  "adult": false,
+  "backdrop_path": "/27b1gTpwjZiwGafp8n4XnZRYGEV.jpg",
+  "first_air_date": "2019-01-11",
+  "genres": [
+    {
+      "id": 35,
+      "name": "Comedy"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    }
+  ],
+  "id": 81356,
+  "name": "Sex Education",
+  "original_name": "Sex Education",
+  "overview": "Inexperienced Otis channels his sex therapist mom when he teams up with rebellious Maeve to set up an underground sex therapy clinic at school.",
+  "poster_path": "/jCXd6L7Vp8pv631ogenyN0v2sxn.jpg",
+  "vote_average": 8.254,
+  "vote_count": 7265
+}
