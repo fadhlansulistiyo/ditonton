@@ -36,7 +36,7 @@ class TvDetailNotifier extends ChangeNotifier {
 
   List<Tv> _tvRecommendations = [];
 
-  List<Tv> get movieRecommendations => _tvRecommendations;
+  List<Tv> get tvRecommendations => _tvRecommendations;
 
   RequestState _recommendationState = RequestState.Empty;
 
