@@ -10,6 +10,7 @@ import '../../provider/tv/tv_list_notifier.dart';
 import '../../widgets/tv_list.dart';
 import '../about/about_page.dart';
 import '../movie/watchlist_movies_page.dart';
+import 'airing_today_tv_page.dart';
 
 class HomeTvPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-page';
@@ -43,9 +44,11 @@ class _HomeTvPageState extends State<HomeTvPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Airing Today Tv',
-                style: kHeading6,
+              _buildSubHeading(
+                title: 'Airing Today Tv',
+                onTap: () {
+                  Navigator.pushNamed(context, AiringTodayTvPage.ROUTE_NAME);
+                },
               ),
               _buildAiringTodayTv(),
               _buildSubHeading(

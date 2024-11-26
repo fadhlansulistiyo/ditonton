@@ -1,12 +1,12 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entity/tv/tv.dart';
-import 'package:ditonton/domain/usecases/tv/get_popular_tv.dart';
+import 'package:ditonton/domain/usecases/tv/get_airing_today_tv.dart';
 import 'package:flutter/foundation.dart';
 
-class PopularTvNotifier extends ChangeNotifier {
-  final GetPopularTv getPopularTv;
+class AiringTodayTvNotifier extends ChangeNotifier {
+  final GetAiringTodayTv getAiringTodayTv;
 
-  PopularTvNotifier({required this.getPopularTv});
+  AiringTodayTvNotifier({required this.getAiringTodayTv});
 
   RequestState _state = RequestState.Empty;
 
@@ -20,11 +20,11 @@ class PopularTvNotifier extends ChangeNotifier {
 
   String get message => _message;
 
-  Future<void> fetchPopularTv() async {
+  Future<void> fetchAiringTodayTv() async {
     _state = RequestState.Loading;
     notifyListeners();
 
-    final result = await getPopularTv.execute();
+    final result = await getAiringTodayTv.execute();
 
     result.fold(
       (failure) {
