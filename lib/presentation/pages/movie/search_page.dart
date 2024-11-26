@@ -3,7 +3,7 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/movie_card_list.dart';
+import '../../widgets/movie_card_list.dart';
 
 class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';

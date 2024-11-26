@@ -1,14 +1,16 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
+import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/movie/search_page.dart';
+import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
+import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
+import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
 import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/movie_list.dart';
-import 'about_page.dart';
+import '../../widgets/movie_list.dart';
+import '../tv/watchlist_tv_page.dart';
+import '../about/about_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
 
@@ -48,14 +50,14 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               // Now Playing Movies
               _buildNowPlayingMovies(),
               _buildSubHeading(
-                title: 'Popular',
+                title: 'Popular Movies',
                 onTap: () {
                   Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME);
                 },
               ),
               _buildPopularMovies(),
               _buildSubHeading(
-                title: 'Top Rated',
+                title: 'Top Rated Movies',
                 onTap: () {
                   Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME);
                 },
@@ -115,7 +117,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: const Text('Ditonton'),
+      title: const Text('Movies'),
       actions: [
         IconButton(
           onPressed: () {
@@ -150,10 +152,24 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.save_alt),
-            title: const Text('Watchlist'),
+            leading: const Icon(Icons.tv),
+            title: const Text('Tv Series'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, HomeTvPage.ROUTE_NAME);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.bookmarks_rounded),
+            title: const Text('Watchlist Movie'),
             onTap: () {
               Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.bookmarks_rounded),
+            title: const Text('Watchlist Tv'),
+            onTap: () {
+              Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
             },
           ),
           ListTile(

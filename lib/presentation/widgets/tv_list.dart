@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ditonton/presentation/pages/tv/tv_detail_page.dart';
 import 'package:flutter/material.dart';
 import '../../common/constants.dart';
-import '../../domain/entity/movie/movie.dart';
-import '../pages/movie/movie_detail_page.dart';
+import '../../domain/entity/tv/tv.dart';
 
-class MovieList extends StatelessWidget {
-  final List<Movie> movies;
+class TvList extends StatelessWidget {
+  final List<Tv> tv;
 
-  const MovieList(this.movies, {super.key});
+  const TvList(this.tv, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +16,17 @@ class MovieList extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final movie = movies[index];
+          final tvs = tv[index];
           return Container(
             padding: const EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, MovieDetailPage.ROUTE_NAME, arguments: movie.id,);
+                Navigator.pushNamed(context, TvDetailPage.ROUTE_NAME, arguments: tvs.id,);
               },
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tvs.posterPath}',
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -36,7 +36,7 @@ class MovieList extends StatelessWidget {
             ),
           );
         },
-        itemCount: movies.length,
+        itemCount: tv.length,
       ),
     );
   }
