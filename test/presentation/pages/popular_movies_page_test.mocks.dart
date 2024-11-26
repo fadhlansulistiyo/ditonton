@@ -9,7 +9,7 @@ import 'dart:ui' as _i8;
 import 'package:ditonton/common/state_enum.dart' as _i4;
 import 'package:ditonton/domain/entity/movie/movie.dart' as _i5;
 import 'package:ditonton/domain/usecases/movie/get_popular_movies.dart' as _i2;
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart'
+import 'package:ditonton/presentation/provider/movie/popular_movies_notifier.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
