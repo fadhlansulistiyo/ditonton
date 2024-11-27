@@ -4,6 +4,7 @@ import 'package:ditonton/domain/repositories/tv_repository.dart';
 import 'package:ditonton/domain/usecases/movie/get_now_playing_movies.dart';
 import 'package:ditonton/domain/usecases/tv/get_airing_today_tv.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv.dart';
+import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart';
@@ -155,6 +156,13 @@ void init() {
   locator.registerFactory(
     () => WatchlistTvNotifier(
       getWatchlistTv: locator(),
+    ),
+  );
+
+  // bloc
+  locator.registerFactory(
+    () => SearchBloc(
+      locator(),
     ),
   );
 
