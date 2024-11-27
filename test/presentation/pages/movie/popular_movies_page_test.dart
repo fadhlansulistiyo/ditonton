@@ -1,25 +1,54 @@
-import 'package:ditonton/common/state_enum.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:ditonton/domain/entity/movie/movie.dart';
+import 'package:ditonton/presentation/bloc/movie/popular/popular_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
-import 'package:ditonton/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'popular_movies_page_test.mocks.dart';
+import 'package:mocktail/mocktail.dart';
 
-@GenerateMocks([PopularMoviesNotifier])
+class MockPopularMoviesBloc
+    extends MockBloc<PopularMovieEvent, PopularMovieState>
+    implements PopularMovieBloc {}
+
+class FakePopularMoviesEvent extends Fake implements PopularMovieEvent {}
+
+class FakePopularMoviesState extends Fake implements PopularMovieState {}
+
 void main() {
-  late MockPopularMoviesNotifier mockNotifier;
+  late MockPopularMoviesBloc mockPopularMovieBloc;
+
+  final tMovieModel = Movie(
+    adult: false,
+    backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
+    genreIds: [14, 28],
+    id: 557,
+    originalTitle: 'Spider-Man',
+    overview:
+        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+    popularity: 60.441,
+    posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
+    releaseDate: '2002-05-01',
+    title: 'Spider-Man',
+    video: false,
+    voteAverage: 7.2,
+    voteCount: 13507,
+  );
+
+  final tMovieList = <Movie>[tMovieModel];
+
+  setUpAll(() {
+    registerFallbackValue(FakePopularMoviesEvent());
+    registerFallbackValue(FakePopularMoviesState());
+  });
 
   setUp(() {
-    mockNotifier = MockPopularMoviesNotifier();
+    mockPopularMovieBloc = MockPopularMoviesBloc();
   });
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<PopularMoviesNotifier>.value(
-      value: mockNotifier,
+    return BlocProvider<PopularMovieBloc>.value(
+      value: mockPopularMovieBloc,
       child: MaterialApp(
         home: body,
       ),
@@ -30,7 +59,7 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.loading);
+    when(() => mockPopularMovieBloc.state).thenReturn(PopularMovieLoading());
 
     /*
     * act */
@@ -49,8 +78,8 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.loaded);
-    when(mockNotifier.movies).thenReturn(<Movie>[]);
+    when(() => mockPopularMovieBloc.state)
+        .thenReturn(PopularMovieHasData(tMovieList));
 
     /*
     * act */
@@ -67,8 +96,8 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.error);
-    when(mockNotifier.message).thenReturn('Error message');
+    when(() => mockPopularMovieBloc.state)
+        .thenReturn(PopularMovieError('Error message'));
 
     /*
     * act */

@@ -53,6 +53,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
                 } else if (state is PopularMovieError) {
                   return Expanded(
                     child: Center(
+                      key: const Key('error_message'),
                       child: Text(state.message),
                     ),
                   );

@@ -1,6 +1,6 @@
 part of 'popular_movie_bloc.dart';
 
-sealed class PopularMovieState extends Equatable {
+abstract class PopularMovieState extends Equatable {
   const PopularMovieState();
   
   @override
