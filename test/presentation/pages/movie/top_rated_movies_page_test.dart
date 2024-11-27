@@ -30,7 +30,7 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.Loading);
+    when(mockNotifier.state).thenReturn(RequestState.loading);
 
     /*
     * act */
@@ -49,7 +49,7 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
+    when(mockNotifier.state).thenReturn(RequestState.loaded);
     when(mockNotifier.movies).thenReturn(<Movie>[]);
 
     /*
@@ -67,7 +67,7 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.Error);
+    when(mockNotifier.state).thenReturn(RequestState.error);
     when(mockNotifier.message).thenReturn('Error message');
 
     /*

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../provider/tv/top_rated_tv_notifier.dart';
 
 class TopRatedTvPage extends StatefulWidget {
-  static const ROUTE_NAME = '/top-rated-tv';
+  static const routeName = '/top-rated-tv';
 
   const TopRatedTvPage({super.key});
 
@@ -34,11 +34,11 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<TopRatedTvNotifier>(
           builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
+            if (data.state == RequestState.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.Loaded) {
+            } else if (data.state == RequestState.loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.tv[index];

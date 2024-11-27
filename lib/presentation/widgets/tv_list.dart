@@ -21,12 +21,12 @@ class TvList extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, TvDetailPage.ROUTE_NAME, arguments: tvs.id,);
+                Navigator.pushNamed(context, TvDetailPage.routeName, arguments: tvs.id,);
               },
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tvs.posterPath}',
+                  imageUrl: '$baseImageUrl${tvs.posterPath}',
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),

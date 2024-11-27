@@ -6,7 +6,7 @@ import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import '../provider/movie/movie_search_notifier_test.mocks.dart';
+import '../../../provider/movie/movie_search_notifier_test.mocks.dart';
 import 'package:bloc_test/bloc_test.dart';
 
 @GenerateMocks([SearchMovies])

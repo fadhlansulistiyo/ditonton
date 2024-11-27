@@ -52,14 +52,14 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               _buildSubHeading(
                 title: 'Popular Movies',
                 onTap: () {
-                  Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME);
+                  Navigator.pushNamed(context, PopularMoviesPage.routeName);
                 },
               ),
               _buildPopularMovies(),
               _buildSubHeading(
                 title: 'Top Rated Movies',
                 onTap: () {
-                  Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME);
+                  Navigator.pushNamed(context, TopRatedMoviesPage.routeName);
                 },
               ),
               _buildTopRatedMovies(),
@@ -73,11 +73,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   Consumer<MovieListNotifier> _buildTopRatedMovies() {
     return Consumer<MovieListNotifier>(builder: (context, data, child) {
       final state = data.topRatedMoviesState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return MovieList(data.topRatedMovies);
       } else {
         return const Text('Failed');
@@ -88,11 +88,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   Consumer<MovieListNotifier> _buildPopularMovies() {
     return Consumer<MovieListNotifier>(builder: (context, data, child) {
       final state = data.popularMoviesState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return MovieList(data.popularMovies);
       } else {
         return const Text('Failed');
@@ -103,11 +103,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   Consumer<MovieListNotifier> _buildNowPlayingMovies() {
     return Consumer<MovieListNotifier>(builder: (context, data, child) {
       final state = data.nowPlayingState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return MovieList(data.nowPlayingMovies);
       } else {
         return const Text('Failed');
@@ -121,7 +121,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+            Navigator.pushNamed(context, SearchPage.routeName);
           },
           icon: const Icon(Icons.search),
         )
@@ -155,26 +155,26 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             leading: const Icon(Icons.tv),
             title: const Text('Tv Series'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, HomeTvPage.ROUTE_NAME);
+              Navigator.pushReplacementNamed(context, HomeTvPage.routeName);
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmarks_rounded),
             title: const Text('Watchlist Movie'),
             onTap: () {
-              Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+              Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmarks_rounded),
             title: const Text('Watchlist Tv Series'),
             onTap: () {
-              Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
+              Navigator.pushNamed(context, WatchlistTvPage.routeName);
             },
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+              Navigator.pushNamed(context, AboutPage.routeName);
             },
             leading: const Icon(Icons.info_outline),
             title: const Text('About'),

@@ -8,7 +8,7 @@ class TvSearchNotifier extends ChangeNotifier {
 
   TvSearchNotifier({required this.searchTv});
 
-  RequestState _state = RequestState.Empty;
+  RequestState _state = RequestState.empty;
 
   RequestState get state => _state;
 
@@ -21,19 +21,19 @@ class TvSearchNotifier extends ChangeNotifier {
   String get message => _message;
 
   Future<void> fetchTvSearch(String query) async {
-    _state = RequestState.Loading;
+    _state = RequestState.loading;
     notifyListeners();
 
     final result = await searchTv.execute(query);
     result.fold(
       (failure) {
         _message = failure.message;
-        _state = RequestState.Error;
+        _state = RequestState.error;
         notifyListeners();
       },
       (data) {
         _searchResult = data;
-        _state = RequestState.Loaded;
+        _state = RequestState.loaded;
         notifyListeners();
       },
     );

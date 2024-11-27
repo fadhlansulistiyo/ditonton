@@ -30,7 +30,7 @@ class MovieDetailNotifier extends ChangeNotifier {
 
   MovieDetail get movie => _movie;
 
-  RequestState _movieState = RequestState.Empty;
+  RequestState _movieState = RequestState.empty;
 
   RequestState get movieState => _movieState;
 
@@ -38,7 +38,7 @@ class MovieDetailNotifier extends ChangeNotifier {
 
   List<Movie> get movieRecommendations => _movieRecommendations;
 
-  RequestState _recommendationState = RequestState.Empty;
+  RequestState _recommendationState = RequestState.empty;
 
   RequestState get recommendationState => _recommendationState;
 
@@ -51,7 +51,7 @@ class MovieDetailNotifier extends ChangeNotifier {
   bool get isAddedToWatchlist => _isAddedToWatchlist;
 
   Future<void> fetchMovieDetail(int id) async {
-    _movieState = RequestState.Loading;
+    _movieState = RequestState.loading;
     notifyListeners();
 
     final detailResult = await getMovieDetail.execute(id);
@@ -59,25 +59,25 @@ class MovieDetailNotifier extends ChangeNotifier {
 
     detailResult.fold(
       (failure) {
-        _movieState = RequestState.Error;
+        _movieState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
       (movie) {
-        _recommendationState = RequestState.Loading;
+        _recommendationState = RequestState.loading;
         _movie = movie;
         notifyListeners();
         recommendationResult.fold(
           (failure) {
-            _recommendationState = RequestState.Error;
+            _recommendationState = RequestState.error;
             _message = failure.message;
           },
           (movieRecommendation) {
-            _recommendationState = RequestState.Loaded;
+            _recommendationState = RequestState.loaded;
             _movieRecommendations = movieRecommendation;
           },
         );
-        _movieState = RequestState.Loaded;
+        _movieState = RequestState.loaded;
         notifyListeners();
       },
     );

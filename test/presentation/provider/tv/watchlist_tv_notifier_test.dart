@@ -35,7 +35,7 @@ void main() {
     await provider.fetchWatchlistTv();
     /*
     * assert */
-    expect(provider.watchlistState, RequestState.Loaded);
+    expect(provider.watchlistState, RequestState.loaded);
     expect(provider.watchlistTv, [testWatchlistTv]);
     expect(listenerCallCount, 2);
   });
@@ -50,7 +50,7 @@ void main() {
     await provider.fetchWatchlistTv();
     /*
     * assert */
-    expect(provider.watchlistState, RequestState.Error);
+    expect(provider.watchlistState, RequestState.error);
     expect(provider.message, "Can't get data");
     expect(listenerCallCount, 2);
   });

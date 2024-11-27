@@ -35,7 +35,7 @@ void main() {
     await provider.fetchWatchlistMovies();
     /*
     * assert */
-    expect(provider.watchlistState, RequestState.Loaded);
+    expect(provider.watchlistState, RequestState.loaded);
     expect(provider.watchlistMovies, [testWatchlistMovie]);
     expect(listenerCallCount, 2);
   });
@@ -50,7 +50,7 @@ void main() {
     await provider.fetchWatchlistMovies();
     /*
     * assert */
-    expect(provider.watchlistState, RequestState.Error);
+    expect(provider.watchlistState, RequestState.error);
     expect(provider.message, "Can't get data");
     expect(listenerCallCount, 2);
   });

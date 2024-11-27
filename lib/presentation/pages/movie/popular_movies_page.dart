@@ -1,11 +1,10 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/movie/popular/popular_movie_bloc.dart';
 
 class PopularMoviesPage extends StatefulWidget {
-  static const ROUTE_NAME = '/popular-movie';
+  static const routeName = '/popular-movie';
 
   const PopularMoviesPage({super.key});
 
@@ -19,7 +18,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
     super.initState();
     Future.microtask(() {
       if (mounted) {
-        context.read<PopularMoviesNotifier>().fetchPopularMovies();
+        context.read<PopularMovieBloc>().add(FetchPopularMovie());
       }
     });
   }
@@ -32,27 +31,39 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.state == RequestState.Loaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final movie = data.movies[index];
-                  return MovieCard(movie);
-                },
-                itemCount: data.movies.length,
-              );
-            } else {
-              return Center(
-                key: const Key('error_message'),
-                child: Text(data.message),
-              );
-            }
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<PopularMovieBloc, PopularMovieState>(
+              builder: (context, state) {
+                if (state is PopularMovieLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is PopularMovieHasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        final movie = state.result[index];
+                        return MovieCard(movie);
+                      },
+                      itemCount: state.result.length,
+                    ),
+                  );
+                } else if (state is PopularMovieError) {
+                  return Expanded(
+                    child: Center(
+                      child: Text(state.message),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Container(),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

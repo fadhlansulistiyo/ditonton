@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../provider/tv/airing_today_tv_notifier.dart';
 
 class AiringTodayTvPage extends StatefulWidget {
-  static const ROUTE_NAME = '/airing-today-tv';
+  static const routeName = '/airing-today-tv';
 
   const AiringTodayTvPage({super.key});
 
@@ -34,11 +34,11 @@ class _AiringTodayTvPageState extends State<AiringTodayTvPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<AiringTodayTvNotifier>(
           builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
+            if (data.state == RequestState.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.Loaded) {
+            } else if (data.state == RequestState.loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.tv[index];

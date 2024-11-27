@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../provider/tv/tv_search_notifier.dart';
 
 class SearchPageTv extends StatelessWidget {
-  static const ROUTE_NAME = '/search-tv';
+  static const routeName = '/search-tv';
 
   const SearchPageTv({super.key});
 
@@ -39,11 +39,11 @@ class SearchPageTv extends StatelessWidget {
             ),
             Consumer<TvSearchNotifier>(
               builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+                if (data.state == RequestState.loading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
+                } else if (data.state == RequestState.loaded) {
                   final result = data.searchResult;
                   return Expanded(
                     child: ListView.builder(

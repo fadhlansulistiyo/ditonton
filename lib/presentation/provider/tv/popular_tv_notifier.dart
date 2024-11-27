@@ -8,7 +8,7 @@ class PopularTvNotifier extends ChangeNotifier {
 
   PopularTvNotifier({required this.getPopularTv});
 
-  RequestState _state = RequestState.Empty;
+  RequestState _state = RequestState.empty;
 
   RequestState get state => _state;
 
@@ -21,7 +21,7 @@ class PopularTvNotifier extends ChangeNotifier {
   String get message => _message;
 
   Future<void> fetchPopularTv() async {
-    _state = RequestState.Loading;
+    _state = RequestState.loading;
     notifyListeners();
 
     final result = await getPopularTv.execute();
@@ -29,12 +29,12 @@ class PopularTvNotifier extends ChangeNotifier {
     result.fold(
       (failure) {
         _message = failure.message;
-        _state = RequestState.Error;
+        _state = RequestState.error;
         notifyListeners();
       },
       (tvData) {
         _tv = tvData;
-        _state = RequestState.Loaded;
+        _state = RequestState.loaded;
         notifyListeners();
       },
     );

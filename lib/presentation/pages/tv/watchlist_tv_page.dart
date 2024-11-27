@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../provider/tv/watchlist_tv_notifier.dart';
 
 class WatchlistTvPage extends StatefulWidget {
-  static const ROUTE_NAME = '/watchlist-tv';
+  static const routeName = '/watchlist-tv';
 
   const WatchlistTvPage({super.key});
 
@@ -46,11 +46,11 @@ class _WatchlistTvPageState extends State<WatchlistTvPage> with RouteAware {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<WatchlistTvNotifier>(
           builder: (context, data, child) {
-            if (data.watchlistState == RequestState.Loading) {
+            if (data.watchlistState == RequestState.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.watchlistState == RequestState.Loaded) {
+            } else if (data.watchlistState == RequestState.loaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.watchlistTv[index];

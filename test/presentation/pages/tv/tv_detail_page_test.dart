@@ -32,9 +32,9 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.tvState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.tvState).thenReturn(RequestState.loaded);
     when(mockNotifier.tv).thenReturn(testTvDetail);
-    when(mockNotifier.recommendationState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.recommendationState).thenReturn(RequestState.loaded);
     when(mockNotifier.tvRecommendations).thenReturn(<Tv>[]);
     when(mockNotifier.isAddedToWatchlist).thenReturn(false);
 
@@ -51,9 +51,9 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.tvState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.tvState).thenReturn(RequestState.loaded);
     when(mockNotifier.tv).thenReturn(testTvDetail);
-    when(mockNotifier.recommendationState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.recommendationState).thenReturn(RequestState.loaded);
     when(mockNotifier.tvRecommendations).thenReturn(<Tv>[]);
     when(mockNotifier.isAddedToWatchlist).thenReturn(true);
 
@@ -72,9 +72,9 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.tvState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.tvState).thenReturn(RequestState.loaded);
     when(mockNotifier.tv).thenReturn(testTvDetail);
-    when(mockNotifier.recommendationState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.recommendationState).thenReturn(RequestState.loaded);
     when(mockNotifier.tvRecommendations).thenReturn(<Tv>[]);
     when(mockNotifier.isAddedToWatchlist).thenReturn(false);
     when(mockNotifier.watchlistMessage).thenReturn('Added to Watchlist');
@@ -98,9 +98,9 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.tvState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.tvState).thenReturn(RequestState.loaded);
     when(mockNotifier.tv).thenReturn(testTvDetail);
-    when(mockNotifier.recommendationState).thenReturn(RequestState.Loaded);
+    when(mockNotifier.recommendationState).thenReturn(RequestState.loaded);
     when(mockNotifier.tvRecommendations).thenReturn(<Tv>[]);
     when(mockNotifier.isAddedToWatchlist).thenReturn(false);
     when(mockNotifier.watchlistMessage).thenReturn('Failed');

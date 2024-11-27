@@ -12,7 +12,7 @@ class WatchlistMovieNotifier extends ChangeNotifier {
 
   List<Movie> get watchlistMovies => _watchlistMovies;
 
-  var _watchlistState = RequestState.Empty;
+  var _watchlistState = RequestState.empty;
 
   RequestState get watchlistState => _watchlistState;
 
@@ -21,18 +21,18 @@ class WatchlistMovieNotifier extends ChangeNotifier {
   String get message => _message;
 
   Future<void> fetchWatchlistMovies() async {
-    _watchlistState = RequestState.Loading;
+    _watchlistState = RequestState.loading;
     notifyListeners();
 
     final result = await getWatchlistMovies.execute();
     result.fold(
       (failure) {
-        _watchlistState = RequestState.Error;
+        _watchlistState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
       (moviesData) {
-        _watchlistState = RequestState.Loaded;
+        _watchlistState = RequestState.loaded;
         _watchlistMovies = moviesData;
         notifyListeners();
       },

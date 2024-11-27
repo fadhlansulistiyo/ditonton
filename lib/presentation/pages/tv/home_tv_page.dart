@@ -13,7 +13,7 @@ import '../movie/watchlist_movies_page.dart';
 import 'airing_today_tv_page.dart';
 
 class HomeTvPage extends StatefulWidget {
-  static const ROUTE_NAME = '/tv-page';
+  static const routeName = '/tv-page';
 
   @override
   _HomeTvPageState createState() => _HomeTvPageState();
@@ -47,21 +47,21 @@ class _HomeTvPageState extends State<HomeTvPage> {
               _buildSubHeading(
                 title: 'Airing Today Tv',
                 onTap: () {
-                  Navigator.pushNamed(context, AiringTodayTvPage.ROUTE_NAME);
+                  Navigator.pushNamed(context, AiringTodayTvPage.routeName);
                 },
               ),
               _buildAiringTodayTv(),
               _buildSubHeading(
                 title: 'Popular Tv Series',
                 onTap: () {
-                  Navigator.pushNamed(context, PopularTvPage.ROUTE_NAME);
+                  Navigator.pushNamed(context, PopularTvPage.routeName);
                 },
               ),
               _buildPopularTv(),
               _buildSubHeading(
                 title: 'Top Rated Series',
                 onTap: () {
-                  Navigator.pushNamed(context, TopRatedTvPage.ROUTE_NAME);
+                  Navigator.pushNamed(context, TopRatedTvPage.routeName);
                 },
               ),
               _buildTopRatedTv(),
@@ -75,11 +75,11 @@ class _HomeTvPageState extends State<HomeTvPage> {
   Consumer<TvListNotifier> _buildTopRatedTv() {
     return Consumer<TvListNotifier>(builder: (context, data, child) {
       final state = data.topRatedTvState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return TvList(data.topRatedTv);
       } else {
         return const Text('Failed');
@@ -90,11 +90,11 @@ class _HomeTvPageState extends State<HomeTvPage> {
   Consumer<TvListNotifier> _buildPopularTv() {
     return Consumer<TvListNotifier>(builder: (context, data, child) {
       final state = data.popularTvState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return TvList(data.popularTv);
       } else {
         return const Text('Failed');
@@ -105,11 +105,11 @@ class _HomeTvPageState extends State<HomeTvPage> {
   Consumer<TvListNotifier> _buildAiringTodayTv() {
     return Consumer<TvListNotifier>(builder: (context, data, child) {
       final state = data.airingTodayState;
-      if (state == RequestState.Loading) {
+      if (state == RequestState.loading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state == RequestState.Loaded) {
+      } else if (state == RequestState.loaded) {
         return TvList(data.airingTodayTv);
       } else {
         return const Text('Failed');
@@ -123,7 +123,7 @@ class _HomeTvPageState extends State<HomeTvPage> {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, SearchPageTv.ROUTE_NAME);
+            Navigator.pushNamed(context, SearchPageTv.routeName);
           },
           icon: const Icon(Icons.search),
         )
@@ -164,19 +164,19 @@ class _HomeTvPageState extends State<HomeTvPage> {
             leading: const Icon(Icons.bookmarks_rounded),
             title: const Text('Watchlist Movie'),
             onTap: () {
-              Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+              Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmarks_rounded),
             title: const Text('Watchlist Tv Series'),
             onTap: () {
-              Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
+              Navigator.pushNamed(context, WatchlistTvPage.routeName);
             },
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+              Navigator.pushNamed(context, AboutPage.routeName);
             },
             leading: const Icon(Icons.info_outline),
             title: const Text('About'),

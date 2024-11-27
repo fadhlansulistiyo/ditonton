@@ -10,7 +10,7 @@ import '../../../domain/entity/movie/movie.dart';
 import '../../../domain/entity/movie/movie_detail.dart';
 
 class MovieDetailPage extends StatefulWidget {
-  static const ROUTE_NAME = '/detail-movie';
+  static const routeName = '/detail-movie';
 
   final int id;
 
@@ -38,11 +38,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     return Scaffold(
       body: Consumer<MovieDetailNotifier>(
         builder: (context, provider, child) {
-          if (provider.movieState == RequestState.Loading) {
+          if (provider.movieState == RequestState.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.movieState == RequestState.Loaded) {
+          } else if (provider.movieState == RequestState.loaded) {
             final movie = provider.movie;
             return SafeArea(
               child: DetailContent(
@@ -174,13 +174,13 @@ class DetailContent extends StatelessWidget {
   Consumer<MovieDetailNotifier> _buildRecommendationList() {
     return Consumer<MovieDetailNotifier>(
       builder: (context, data, child) {
-        if (data.recommendationState == RequestState.Loading) {
+        if (data.recommendationState == RequestState.loading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (data.recommendationState == RequestState.Error) {
+        } else if (data.recommendationState == RequestState.error) {
           return Text(data.message);
-        } else if (data.recommendationState == RequestState.Loaded) {
+        } else if (data.recommendationState == RequestState.loaded) {
           return SizedBox(
             height: 150,
             child: ListView.builder(
@@ -206,7 +206,7 @@ class DetailContent extends StatelessWidget {
         onTap: () {
           Navigator.pushReplacementNamed(
             context,
-            MovieDetailPage.ROUTE_NAME,
+            MovieDetailPage.routeName,
             arguments: movie.id,
           );
         },
