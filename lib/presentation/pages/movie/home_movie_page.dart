@@ -2,7 +2,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/movie/now_playing/now_playing_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/movie/search_page.dart';
+import 'package:ditonton/presentation/pages/movie/search_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
@@ -147,7 +147,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, SearchPage.routeName);
+            Navigator.pushNamed(context, SearchMoviePage.routeName);
           },
           icon: const Icon(Icons.search),
         )
