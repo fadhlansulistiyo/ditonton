@@ -1,3 +1,4 @@
+import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/now_playing/now_playing_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/popular/popular_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
@@ -61,8 +62,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<SearchBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailBloc>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
