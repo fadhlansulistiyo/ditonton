@@ -32,10 +32,15 @@ import 'package:provider/provider.dart';
 import 'common/constants.dart';
 import 'common/utils.dart';
 import 'data/helper/http_ssl_pinning.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await HttpSSLPinning.init();
   di.init();
   runApp(const MyApp());

@@ -6,6 +6,7 @@ import 'package:ditonton/presentation/pages/movie/search_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/movie/popular/popular_movie_bloc.dart';
@@ -62,6 +63,13 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 },
               ),
               _buildTopRatedMovies(),
+              IconButton(
+                onPressed: () {
+                  FirebaseCrashlytics.instance.crash();
+                  Navigator.pushNamed(context, SearchMoviePage.routeName);
+                },
+                icon: const Icon(Icons.search),
+              )
             ],
           ),
         ),
