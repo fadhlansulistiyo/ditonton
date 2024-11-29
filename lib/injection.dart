@@ -17,7 +17,6 @@ import 'package:ditonton/presentation/bloc/tv/search/search_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/top_rated/top_rated_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/watchlist/watchlist_tv_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 import 'data/datasources/db/database_helper.dart';
 import 'data/datasources/movie/movie_local_ds.dart';
 import 'data/datasources/movie/movie_local_ds_impl.dart';
@@ -27,6 +26,7 @@ import 'data/datasources/tv/tv_local_ds.dart';
 import 'data/datasources/tv/tv_local_ds_impl.dart';
 import 'data/datasources/tv/tv_remote_ds.dart';
 import 'data/datasources/tv/tv_remote_ds_impl.dart';
+import 'data/helper/http_ssl_pinning.dart';
 import 'data/repositories/tv_repository_impl.dart';
 import 'domain/usecases/movie/get_movie_detail.dart';
 import 'domain/usecases/movie/get_movie_recommendations.dart';
@@ -55,39 +55,19 @@ void init() {
   */
 
   // Movie Search
-  locator.registerFactory(
-    () => SearchMovieBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => SearchMovieBloc(locator()));
 
   // Now Playing Movie
-  locator.registerFactory(
-    () => NowPlayingBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => NowPlayingBloc(locator()));
 
   // Popular Movie
-  locator.registerFactory(
-    () => PopularMovieBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => PopularMovieBloc(locator()));
 
   // Top Rated Movie
-  locator.registerFactory(
-    () => TopRatedMovieBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => TopRatedMovieBloc(locator()));
 
   // Watchlist Movie
-  locator.registerFactory(
-    () => WatchlistMovieBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => WatchlistMovieBloc(locator()));
 
   // Movie Detail
   locator.registerFactory(
@@ -100,32 +80,19 @@ void init() {
   );
 
   // Airing Today Tv
-  locator.registerFactory(
-    () => AiringTodayBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => AiringTodayBloc(locator()));
 
   // Popular Tv
-  locator.registerFactory(
-    () => PopularTvBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => PopularTvBloc(locator()));
 
   // Top Rated Tv
-  locator.registerFactory(
-    () => TopRatedTvBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => TopRatedTvBloc(locator()));
 
   // TV Search
-  locator.registerFactory(
-    () => SearchTvBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => SearchTvBloc(locator()));
+
+  // Watchlist Tv
+  locator.registerFactory(() => WatchlistTvBloc(locator()));
 
   // Tv Detail
   locator.registerFactory(
@@ -135,13 +102,6 @@ void init() {
       getWatchListStatusTv: locator(),
       removeWatchlistTv: locator(),
       saveWatchlistTv: locator(),
-    ),
-  );
-
-  // Watchlist Tv
-  locator.registerFactory(
-    () => WatchlistTvBloc(
-      locator(),
     ),
   );
 
@@ -223,5 +183,5 @@ void init() {
   /*
   * external
   */
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => HttpSSLPinning.client);
 }

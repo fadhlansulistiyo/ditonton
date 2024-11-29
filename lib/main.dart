@@ -31,8 +31,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'common/constants.dart';
 import 'common/utils.dart';
+import 'data/helper/http_ssl_pinning.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await HttpSSLPinning.init();
   di.init();
   runApp(const MyApp());
 }
