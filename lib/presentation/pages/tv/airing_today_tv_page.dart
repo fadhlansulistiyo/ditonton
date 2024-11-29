@@ -1,8 +1,7 @@
-import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/presentation/bloc/tv/airing_today/airing_today_bloc.dart';
 import 'package:ditonton/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../provider/tv/airing_today_tv_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AiringTodayTvPage extends StatefulWidget {
   static const routeName = '/airing-today-tv';
@@ -19,7 +18,7 @@ class _AiringTodayTvPageState extends State<AiringTodayTvPage> {
     super.initState();
     Future.microtask(() {
       if (mounted) {
-        context.read<AiringTodayTvNotifier>().fetchAiringTodayTv();
+        context.read<AiringTodayBloc>().add(FetchAiringTodayTv());
       }
     });
   }
@@ -32,27 +31,40 @@ class _AiringTodayTvPageState extends State<AiringTodayTvPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<AiringTodayTvNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.state == RequestState.loaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final tv = data.tv[index];
-                  return TvCardList(tv);
-                },
-                itemCount: data.tv.length,
-              );
-            } else {
-              return Center(
-                key: const Key('error_message'),
-                child: Text(data.message),
-              );
-            }
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<AiringTodayBloc, AiringTodayState>(
+              builder: (context, state) {
+                if (state is AiringTodayLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is AiringTodayHasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        final tv = state.result[index];
+                        return TvCardList(tv);
+                      },
+                      itemCount: state.result.length,
+                    ),
+                  );
+                } else if (state is AiringTodayError) {
+                  return Expanded(
+                    child: Center(
+                      key: const Key('error_message'),
+                      child: Text(state.message),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Container(),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

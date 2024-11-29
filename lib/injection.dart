@@ -10,13 +10,12 @@ import 'package:ditonton/presentation/bloc/movie/popular/popular_movie_bloc.dart
 import 'package:ditonton/presentation/bloc/movie/search/search_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
-import 'package:ditonton/presentation/provider/tv/airing_today_tv_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/popular_tv_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/top_rated_tv_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/tv_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/tv_search_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/watchlist_tv_notifier.dart';
+import 'package:ditonton/presentation/bloc/tv/airing_today/airing_today_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/detail/tv_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/popular/popular_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/search/search_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/top_rated/top_rated_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/watchlist/watchlist_tv_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'data/datasources/db/database_helper.dart';
@@ -100,58 +99,49 @@ void init() {
         getWatchListStatusMovie: locator()),
   );
 
-  // Tv List
+  // Airing Today Tv
   locator.registerFactory(
-    () => TvListNotifier(
-      getAiringTodayTv: locator(),
-      getPopularTv: locator(),
-      getTopRatedTv: locator(),
-    ),
-  );
-
-  // Tv Detail
-  locator.registerFactory(
-    () => TvDetailNotifier(
-      getTvDetail: locator(),
-      getTvRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
-    ),
-  );
-
-  // TV Search
-  locator.registerFactory(
-    () => TvSearchNotifier(
-      searchTv: locator(),
+    () => AiringTodayBloc(
+      locator(),
     ),
   );
 
   // Popular Tv
   locator.registerFactory(
-    () => PopularTvNotifier(
-      getPopularTv: locator(),
-    ),
-  );
-
-  // Airing Today Tv
-  locator.registerFactory(
-    () => AiringTodayTvNotifier(
-      getAiringTodayTv: locator(),
+    () => PopularTvBloc(
+      locator(),
     ),
   );
 
   // Top Rated Tv
   locator.registerFactory(
-    () => TopRatedTvNotifier(
-      getTopRatedTv: locator(),
+    () => TopRatedTvBloc(
+      locator(),
+    ),
+  );
+
+  // TV Search
+  locator.registerFactory(
+    () => SearchTvBloc(
+      locator(),
+    ),
+  );
+
+  // Tv Detail
+  locator.registerFactory(
+    () => TvDetailBloc(
+      getTvDetail: locator(),
+      getRecommendationTv: locator(),
+      getWatchListStatusTv: locator(),
+      removeWatchlistTv: locator(),
+      saveWatchlistTv: locator(),
     ),
   );
 
   // Watchlist Tv
   locator.registerFactory(
-    () => WatchlistTvNotifier(
-      getWatchlistTv: locator(),
+    () => WatchlistTvBloc(
+      locator(),
     ),
   );
 

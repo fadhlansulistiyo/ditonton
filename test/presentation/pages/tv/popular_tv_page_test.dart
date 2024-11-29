@@ -1,25 +1,35 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entity/tv/tv.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:ditonton/presentation/bloc/tv/popular/popular_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_page.dart';
-import 'package:ditonton/presentation/provider/tv/popular_tv_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'popular_tv_page_test.mocks.dart';
+import 'package:mocktail/mocktail.dart';
 
-@GenerateMocks([PopularTvNotifier])
+import '../../../dummy_data/dummy_object_tv.dart';
+
+class MockPopularTvBloc extends MockBloc<PopularTvEvent, PopularTvState>
+    implements PopularTvBloc {}
+
+class FakePopularTvEvent extends Fake implements PopularTvEvent {}
+
+class FakePopularTvState extends Fake implements PopularTvState {}
+
 void main() {
-  late MockPopularTvNotifier mockNotifier;
+  late MockPopularTvBloc mockPopularTvBloc;
+
+  setUpAll(() {
+    registerFallbackValue(FakePopularTvEvent());
+    registerFallbackValue(FakePopularTvState());
+  });
 
   setUp(() {
-    mockNotifier = MockPopularTvNotifier();
+    mockPopularTvBloc = MockPopularTvBloc();
   });
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<PopularTvNotifier>.value(
-      value: mockNotifier,
+    return BlocProvider<PopularTvBloc>.value(
+      value: mockPopularTvBloc,
       child: MaterialApp(
         home: body,
       ),
@@ -30,7 +40,7 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.loading);
+    when(() => mockPopularTvBloc.state).thenReturn(PopularTvLoading());
 
     /*
     * act */
@@ -49,8 +59,8 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.loaded);
-    when(mockNotifier.tv).thenReturn(<Tv>[]);
+    when(() => mockPopularTvBloc.state)
+        .thenReturn(PopularTvHasData(testTvList));
 
     /*
     * act */
@@ -67,8 +77,8 @@ void main() {
       (WidgetTester tester) async {
     /*
     * arrange */
-    when(mockNotifier.state).thenReturn(RequestState.error);
-    when(mockNotifier.message).thenReturn('Error message');
+    when(() => mockPopularTvBloc.state)
+        .thenReturn(PopularTvError('Error message'));
 
     /*
     * act */

@@ -69,16 +69,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     );
   }
 
-  BlocBuilder<TopRatedMovieBloc, TopRatedMovieState> _buildTopRatedMovies() {
-    return BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
+  BlocBuilder<NowPlayingBloc, NowPlayingState> _buildNowPlayingMovies() {
+    return BlocBuilder<NowPlayingBloc, NowPlayingState>(
       builder: (context, state) {
-        if (state is TopRatedMovieLoading) {
+        if (state is NowPlayingLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is TopRatedMovieHasData) {
+        } else if (state is NowPlayingHasData) {
           return MovieList(state.result);
-        } else if (state is TopRatedMovieError) {
+        } else if (state is NowPlayingError) {
           return Expanded(
             child: Center(
               child: Text(state.message),
@@ -117,16 +117,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     );
   }
 
-  BlocBuilder<NowPlayingBloc, NowPlayingState> _buildNowPlayingMovies() {
-    return BlocBuilder<NowPlayingBloc, NowPlayingState>(
+  BlocBuilder<TopRatedMovieBloc, TopRatedMovieState> _buildTopRatedMovies() {
+    return BlocBuilder<TopRatedMovieBloc, TopRatedMovieState>(
       builder: (context, state) {
-        if (state is NowPlayingLoading) {
+        if (state is TopRatedMovieLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is NowPlayingHasData) {
+        } else if (state is TopRatedMovieHasData) {
           return MovieList(state.result);
-        } else if (state is NowPlayingError) {
+        } else if (state is TopRatedMovieError) {
           return Expanded(
             child: Center(
               child: Text(state.message),

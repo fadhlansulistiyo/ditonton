@@ -1,9 +1,8 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../provider/tv/tv_search_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/tv/search/search_tv_bloc.dart';
 
 class SearchPageTv extends StatelessWidget {
   static const routeName = '/search-tv';
@@ -14,7 +13,7 @@ class SearchPageTv extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Tv Series...'),
+        title: const Text('Search Tv Series'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -22,8 +21,8 @@ class SearchPageTv extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                context.read<TvSearchNotifier>().fetchTvSearch(query);
+              onChanged: (query) {
+                context.read<SearchTvBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -37,22 +36,43 @@ class SearchPageTv extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.loading) {
+            BlocBuilder<SearchTvBloc, SearchTvState>(
+              builder: (context, state) {
+                if (state is SearchTvLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.loaded) {
-                  final result = data.searchResult;
+                } else if (state is SearchTvHasData) {
+                  final result = state.result;
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final tv = data.searchResult[index];
+                        final tv = result[index];
                         return TvCardList(tv);
                       },
                       itemCount: result.length,
+                    ),
+                  );
+                } else if (state is SearchTvEmpty) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 32),
+                    child: const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search_off, size: 100),
+                          SizedBox(height: 2),
+                          Text('Tv not found. Please try again.'),
+                        ],
+                      ),
+                    ),
+                  );
+                } else if (state is SearchTvError) {
+                  return Expanded(
+                    child: Center(
+                      key: const Key('error_message'),
+                      child: Text(state.message),
                     ),
                   );
                 } else {

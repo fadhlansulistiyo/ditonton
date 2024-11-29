@@ -1,12 +1,13 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/presentation/bloc/tv/airing_today/airing_today_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/popular/popular_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/top_rated/top_rated_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_page.dart';
 import 'package:ditonton/presentation/pages/tv/search_page_tv.dart';
 import 'package:ditonton/presentation/pages/tv/top_rated_tv_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_page.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../provider/tv/tv_list_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/tv_list.dart';
 import '../about/about_page.dart';
 import '../movie/watchlist_movies_page.dart';
@@ -25,10 +26,9 @@ class _HomeTvPageState extends State<HomeTvPage> {
     super.initState();
     Future.microtask(() {
       if (mounted) {
-        context.read<TvListNotifier>()
-          ..fetchAiringTodayTv()
-          ..fetchPopularTv()
-          ..fetchTopRatedTv();
+        context.read<AiringTodayBloc>().add(FetchAiringTodayTv());
+        context.read<PopularTvBloc>().add(FetchPopularTv());
+        context.read<TopRatedTvBloc>().add(FetchTopRatedTv());
       }
     });
   }
@@ -72,49 +72,64 @@ class _HomeTvPageState extends State<HomeTvPage> {
     );
   }
 
-  Consumer<TvListNotifier> _buildTopRatedTv() {
-    return Consumer<TvListNotifier>(builder: (context, data, child) {
-      final state = data.topRatedTvState;
-      if (state == RequestState.loading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state == RequestState.loaded) {
-        return TvList(data.topRatedTv);
-      } else {
-        return const Text('Failed');
-      }
-    });
+  BlocBuilder<AiringTodayBloc, AiringTodayState> _buildAiringTodayTv() {
+    return BlocBuilder<AiringTodayBloc, AiringTodayState>(
+      builder: (context, state) {
+        if (state is AiringTodayLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is AiringTodayHasData) {
+          return TvList(state.result);
+        } else if (state is AiringTodayError) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
-  Consumer<TvListNotifier> _buildPopularTv() {
-    return Consumer<TvListNotifier>(builder: (context, data, child) {
-      final state = data.popularTvState;
-      if (state == RequestState.loading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state == RequestState.loaded) {
-        return TvList(data.popularTv);
-      } else {
-        return const Text('Failed');
-      }
-    });
+  BlocBuilder<PopularTvBloc, PopularTvState> _buildPopularTv() {
+    return BlocBuilder<PopularTvBloc, PopularTvState>(
+      builder: (context, state) {
+        if (state is PopularTvLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is PopularTvHasData) {
+          return TvList(state.result);
+        } else if (state is PopularTvError) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
-  Consumer<TvListNotifier> _buildAiringTodayTv() {
-    return Consumer<TvListNotifier>(builder: (context, data, child) {
-      final state = data.airingTodayState;
-      if (state == RequestState.loading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state == RequestState.loaded) {
-        return TvList(data.airingTodayTv);
-      } else {
-        return const Text('Failed');
-      }
-    });
+  BlocBuilder<TopRatedTvBloc, TopRatedTvState> _buildTopRatedTv() {
+    return BlocBuilder<TopRatedTvBloc, TopRatedTvState>(
+      builder: (context, state) {
+        if (state is TopRatedTvLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is TopRatedTvHasData) {
+          return TvList(state.result);
+        } else if (state is TopRatedTvError) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
   AppBar _buildAppBar() {
