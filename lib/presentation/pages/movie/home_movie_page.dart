@@ -63,13 +63,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 },
               ),
               _buildTopRatedMovies(),
-              IconButton(
-                onPressed: () {
-                  FirebaseCrashlytics.instance.crash();
-                  Navigator.pushNamed(context, SearchMoviePage.routeName);
-                },
-                icon: const Icon(Icons.search),
-              )
             ],
           ),
         ),
