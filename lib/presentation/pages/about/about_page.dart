@@ -29,7 +29,7 @@ class AboutPage extends StatelessWidget {
                   padding: const EdgeInsets.all(32.0),
                   color: kMikadoYellow,
                   child: const Text(
-                    'Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding Indonesia sebagai contoh proyek aplikasi untuk kelas Menjadi Flutter Developer Expert.',
+                    'Ditonton is a mobile application built with Flutter that allows users to explore a catalog of movies and TV series, sourced from the TMDB API. Users can also save their favorite titles to a watchlist for easy access. The app provides a seamless browsing experience for movie enthusiasts.',
                     style: TextStyle(color: Colors.black87, fontSize: 16),
                     textAlign: TextAlign.justify,
                   ),
